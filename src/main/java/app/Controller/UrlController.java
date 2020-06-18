@@ -1,6 +1,7 @@
 package app.Controller;
 
-import app.data.Response;
+import app.data.AddUrlRequest;
+import app.data.AddUrlResponse;
 import app.service.UrlService;
 import io.jooby.Context;
 import io.jooby.annotations.GET;
@@ -18,21 +19,10 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-//    @GET(path = "/")
-//    public Response sayHi(Context ctx) {
-//        System.out.println(urlService);
-////        ctx.se(MediaType.json);
-//        return Response.builder().book(urlService.getBooks()).build();
-////        return gson.toJson(bookService.getBooks());
-//
-//    }
-
-    @POST(path = "/")
-    public Response addUrl(Context ctx, ) {
-        System.out.println(urlService);
-//        ctx.se(MediaType.json);
-        return Response.builder().book(urlService.toString()).build();
-//        return gson.toJson(bookService.getBooks());
+    @POST(path = "/url")
+    public AddUrlResponse addUrl(Context ctx, AddUrlRequest addUrlRequest) {
+        String shortCode = urlService.addUrl(addUrlRequest.getUrl());
+        return AddUrlResponse.builder().shortCode(shortCode).build();
 
     }
 
