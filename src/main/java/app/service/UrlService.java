@@ -3,6 +3,8 @@ package app.service;
 import io.lettuce.core.api.StatefulRedisConnection;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 /**
@@ -14,9 +16,11 @@ import java.util.UUID;
 public class UrlService {
 
     private final StatefulRedisConnection<String, String> statefulRedisConnection;
+    private final MessageDigest messageDigest;
 
-    public UrlService(StatefulRedisConnection<String, String> statefulRedisConnection) {
+    public UrlService(StatefulRedisConnection<String, String> statefulRedisConnection) throws NoSuchAlgorithmException {
         this.statefulRedisConnection = statefulRedisConnection;
+        this.messageDigest = MessageDigest.getInstance("SHA-256");
     }
 
     public String addUrl(String url) {
@@ -28,4 +32,10 @@ public class UrlService {
     public String getUrlByShortCode(String shortCode) {
         return statefulRedisConnection.sync().get(shortCode);
     }
+
+    public String encodeUrl(String url)  {
+        messageDigest.update(url.getBytes());
+        return new String(messageDigest.digest());
+    }
+
 }

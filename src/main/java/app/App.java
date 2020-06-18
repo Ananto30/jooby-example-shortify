@@ -13,6 +13,7 @@ public class App extends Jooby {
         install(new RedisModule());
         install(new GsonModule());
 
+        // TODO: Need to fix this error handler
         error((ctx, cause, statusCode) -> {
             Router router = ctx.getRouter();
             router.getLog().error("found `{}` error", statusCode.value(), cause);

@@ -23,12 +23,11 @@ public class UrlController {
     public AddUrlResponse addUrl(Context ctx, AddUrlRequest addUrlRequest) {
         String shortCode = urlService.addUrl(addUrlRequest.getUrl());
         return AddUrlResponse.builder().shortCode(shortCode).build();
-
     }
 
     @GET(path = "/{shortCode}")
-    public String sayBye(@PathParam String shortCode) {
-        return urlService.getUrlByShortCode(shortCode);
+    public void getUrl(@PathParam String shortCode, Context ctx) {
+        ctx.sendRedirect(urlService.getUrlByShortCode(shortCode));
     }
 
 }
