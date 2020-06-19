@@ -12,5 +12,5 @@ Welcome to shortify!!
 
 ## docker
 
-     docker build . -t bookstore
-     docker run -p 8080:8080 -it bookstore
+     docker build . -t shortify
+     docker run -p 8080:8080 -it shortify
