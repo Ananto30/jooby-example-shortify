@@ -2,6 +2,7 @@ package app.Controller;
 
 import app.data.AddUrlRequest;
 import app.data.AddUrlResponse;
+import app.data.ResponseFormat;
 import app.service.UrlService;
 import io.jooby.Context;
 import io.jooby.annotations.GET;
@@ -20,9 +21,14 @@ public class UrlController {
     }
 
     @POST(path = "/url")
-    public AddUrlResponse addUrl(Context ctx, AddUrlRequest addUrlRequest) {
+    public ResponseFormat addUrl(Context ctx, AddUrlRequest addUrlRequest) {
         String shortCode = urlService.addUrl(addUrlRequest.getUrl());
-        return AddUrlResponse.builder().shortCode(shortCode).build();
+        return ResponseFormat.builder()
+                .status("200")
+                .data(AddUrlResponse.builder()
+                        .shortCode(shortCode)
+                        .build())
+                .build();
     }
 
     @GET(path = "/{shortCode}")
